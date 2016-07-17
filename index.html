@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html ng-app="mangadlapp">
+<head>
+    <meta charset="UTF-8">
+    <title>Mangadlapp</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./node_modules/primer-css/build/build.css">
+    <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/web.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+    <!-- JS -->
+    <script src="./node_modules/angular/angular.min.js"></script>
+    <script src="./node_modules/angular-animate/angular-animate.min.js"></script>
+    <script src="./renderer.js"></script>
+</head>
+<body>
+    <div ng-controller="ListController as list">
+        <div class="container" ng-if="!list.manga.volumes">
+            <div class="columns">
+                <div class="one-half column centered mt-5">
+                    <form ng-submit="list.search()">
+                        <div class="input-group">
+                            <input class="form-control" ng-model="list.name" placeholder="Search for manga">
+                            <span class="input-group-button"><button type="submit" class="btn"><i class="fa fa-search"></i></button></span>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="column centered mt-5">
+                    <div data-filterable-for="integration-filter-field" data-filterable-type="substring" class="clearfix">
+                        <div class="intgrs-lstng-item mb-3 ml-3 text-center" ng-repeat="manga in list.mangas" ng-if="!list.loading">
+                            <a href class="intgrs-lstng-item-link" data-pjax="true" ng-click="list.select($index)">
+                                <img alt="{{manga.name}}" class="avatar intgrs-lstng-logo" ng-src="{{manga.image}}" height="172" width="128">
+                                <h3 class="intgrs-lstng-item-header">{{manga.name}}</h3>
+                                <p class="intgrs-lstng-item-description">{{manga.description.slice(0, 120)}}</p>
+                            </a>
+                        </div>
+                        <div class="text-center mt-5 grey" ng-if="!list.mangas.length || list.loading"><h1>Mangafox Search</h1></div>
+                        <div class="text-center mt-5 grey" ng-if="list.loading"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" ng-if="list.manga.volumes">
+            <div class="columns mt-5">
+                <div class="column one-fourth px-5">
+                    <button class="btn" ng-click="list.manga = null" ng-disabled="list.downloading">Back</button>
+                </div>
+
+                <div class="column one-half text-center grey" ng-switch="list.manga.name.length < 20">
+                    <h1 ng-switch-when="true">{{list.manga.name}}</h1>
+                    <h2 ng-switch-when="false">{{list.manga.name}}</h2>
+                </div>
+            </div>
+            <div class="columns mt-5">
+                <div class="column two-thirds px-5">
+                    <div class="article-body content-body wikistyle markdown-format">
+                        <div class="intro"></div>
+                        <p class="lead grey">Description</p>
+                        <p>{{list.manga.description}}</p>
+                    </div>
+                </div>
+
+                <div class="column one-third px-5">
+                    <img ng-src="{{list.manga.image}}" alt="{{list.manga.name}}" width="100%">
+                </div>
+            </div>
+            <div class="columns volumes">
+                <div class="column centered px-5" ng-switch="list.loading">
+                    <form ng-switch-when="false">
+                        <ul class="list-style-none">
+                            <li class="checkbox border-bottom pb-3 mb-3">
+                                <label>
+                                    <span class="column two-thirds">
+                                        <input type="checkbox" checked="checked" ng-click="list.selection($event)" ng-disabled="list.downloading">
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                        <span class="text-bold">All</span>
+                                    </span>
+                                    <span class="column one-third pl-6">
+                                        <button class="btn" ng-click="list.save()" ng-disabled="list.downloading" ng-switch="list.downloading">
+                                            <span ng-switch-when="true"><i class="fa fa-spinner fa-pulse fa-fw"></i></span>
+                                            <span ng-switch-when="false">Download</span>
+                                        </button>
+                                    </span>
+                                </label>
+                            </li>
+                            <div class="list-group">
+                                <li class="checkbox repeated-item mb-3" ng-repeat="volume in list.manga.volumes | orderBy:'name'">
+                                    <label>
+                                        <input type="checkbox" ng-model="volume.selected" ng-disabled="list.downloading">
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                    <span ng-class="{ grey: !volume.selected, green: volume.loading === 100 }" class="text-bold">
+                                        Volume {{volume.name ? volume.name.slice(1, volume.name.length - 1) : '01'}}
+                                    </span>
+                                    <span ng-class="{ grey: !volume.selected, 'dark-grey': volume.selected }" class="small-text">
+                                        Chapter <strong>{{volume.chapters[0]}}</strong> - <strong>{{volume.chapters[volume.chapters.length - 1]}}</strong>
+                                    </span>
+                                        <div ng-if="volume.loading && volume.loading !== 100" class="fade-container pr-2" style="overflow: hidden;">
+                                            <div ng-if="volume.loading && volume.loading !== 100" class="loading-container fade mt-3">
+                                                <div class="loading-progress" ng-style="{ width: volume.loading + '%' }"></div>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </li>
+                            </div>
+                        </ul>
+                    </form>
+                    <div class="text-center mt-5 grey" ng-switch-when="true"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

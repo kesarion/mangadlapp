@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="columns mt-5">
+        <div class="one-half column centered text-center grey">
+            <h1>{{manga.name}}</h1>
+        </div>
+    </div>
+    <div class="columns mt-5">
+        <div class="column two-thirds px-5">
+            <div class="article-body content-body wikistyle markdown-format">
+                <div class="intro"></div>
+                <p class="lead">Description</p>
+                <p>{{manga.description}}</p>
+            </div>
+        </div>
+
+        <div class="column one-third px-5">
+            <img ng-src="{{manga.image}}" alt="{{manga.name}}" width="100%">
+        </div>
+    </div>
+</div>

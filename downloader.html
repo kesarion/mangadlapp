@@ -1,0 +1,34 @@
+<html>
+<script type="text/javascript">
+    const electron = require('electron');
+    const ipcRenderer = electron.ipcRenderer;
+    const BrowserWindow = electron.remote.BrowserWindow;
+    const co = require('co');
+    const Manga = require('manga-dl');
+
+    ipcRenderer.on('save', function (event, manga, volumes, fromWindowId) {
+        const fromWindow = BrowserWindow.fromId(fromWindowId);
+        manga = new Manga(manga.url, manga.path, manga.volumes);
+
+        co(function *() {
+            for (let volume of volumes) {
+                let interval = setInterval(function () {
+                    let loading = manga.volumes[volume].loading;
+                    fromWindow.webContents.send('loading', {
+                        name: manga.volumes[volume].name,
+                        loading: loading && loading.total ? (loading.done + loading.buffered)*100/(2*loading.total) : 1
+                    });
+                }, 1000);
+                yield manga.saveVolume(volume);
+                clearInterval(interval);
+                fromWindow.webContents.send('loading', {
+                    name: manga.volumes[volume].name,
+                    loading: 100
+                });
+            }
+
+            setTimeout(window.close, 3000);
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,47 @@
+<div class="container" ng-if="!list.selected">
+    <div class="columns">
+        <div class="one-half column centered mt-5">
+            <form ng-submit="list.search()">
+                <div class="input-group">
+                    <input class="form-control" ng-model="list.name" placeholder="Search for manga">
+                    <span class="input-group-button"><button type="submit" class="btn"><i class="fa fa-search"></i></button></span>
+                </div>
+            </form>
+        </div>
+
+        <div class="column centered mt-5">
+            <div data-filterable-for="integration-filter-field" data-filterable-type="substring" class="clearfix">
+                <div class="intgrs-lstng-item mb-3 ml-3 text-center" ng-repeat="manga in list.manga" ng-if="!list.loading">
+                    <a href class="intgrs-lstng-item-link" data-pjax="true" ng-click="list.goToManga($index)">
+                        <img alt="{{manga.name}}" class="avatar intgrs-lstng-logo" ng-src="{{manga.image}}" height="172" width="128">
+                        <h3 class="intgrs-lstng-item-header">{{manga.name}}</h3>
+                        <p class="intgrs-lstng-item-description">{{manga.description.slice(0, 120)}}</p>
+                    </a>
+                </div>
+                <div class="text-center mt-5 grey" ng-if="!list.manga.length || list.loading"><h1>Mangafox Search</h1></div>
+                <div class="text-center mt-5 grey" ng-if="list.loading"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" ng-if="list.selected">
+    <div class="columns mt-5">
+        <div class="one-half column centered text-center grey">
+            <h1>{{list.selected.name}}</h1>
+        </div>
+    </div>
+    <div class="columns mt-5">
+        <div class="column two-thirds px-5">
+            <div class="article-body content-body wikistyle markdown-format">
+                <div class="intro"></div>
+                <p class="lead">Description</p>
+                <p>{{list.selected.description}}</p>
+            </div>
+        </div>
+
+        <div class="column one-third px-5">
+            <img ng-src="{{list.selected.image}}" alt="{{list.selected.name}}" width="100%">
+        </div>
+    </div>
+</div>

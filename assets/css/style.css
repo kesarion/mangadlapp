@@ -1,0 +1,246 @@
+body {
+    -webkit-app-region: drag;
+}
+
+input, button, p, li, h1, h2, h3, h4, h5, h6 {
+    -webkit-app-region: no-drag;
+}
+
+.container {
+    width: 760px;
+}
+
+.one-half form div input {
+    width: 88%;
+}
+
+.green {
+    color: #96D940;
+}
+
+.grey {
+    color: lightgrey;
+}
+
+.dark-grey {
+    color: grey;
+}
+
+.intgrs-lstng-item-link {
+    height: 300px;
+}
+
+ul.list-style-none {
+    list-style: none;
+}
+
+/* Checkbox CSS */
+
+.checkbox label:after,
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.volumes {
+    margin-top: 17px;
+}
+
+.list-group {
+    height: calc(100vh - 520px);
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 17%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    opacity: 0;
+    /*transform: scale(3) rotateZ(-20deg);*/
+    /*transition: all .3s ease-in;*/
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+
+.checkbox label {
+    font-size: 1.5em;
+}
+
+.checkbox label .small-text {
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    font-stretch: normal;
+    font-size: 12px;
+    line-height: 1.4;
+    font-family: Helvetica, sans-serif;
+}
+
+.checkbox label .column {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.checkbox label span button {
+    margin-top: -13px;
+    width: 100%;
+}
+
+.loading-container {
+    background-color:transparent;
+    width:100%;
+    border-color: #96D940;
+    border-width:2px;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border-style:solid;
+}
+
+.loading-progress {
+    background-color: #96D940;
+    width:0;
+    height:4px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    margin: 2px;
+}
+
+/* Angular Animations */
+
+/* The starting CSS styles for the enter animation */
+.fade.ng-enter {
+    transition:0.5s linear all;
+    animation-delay: 0.25s;
+    opacity:0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fade.ng-enter.ng-enter-active {
+    opacity:1;
+}
+
+/* now the element will fade out before it is removed from the DOM */
+.fade.ng-leave {
+    transition:1s linear all;
+    opacity:1;
+}
+.fade.ng-leave.ng-leave-active {
+    opacity:0;
+}
+
+/* Fade container */
+
+/* The starting CSS styles for the enter animation */
+.fade-container.ng-enter {
+    transition: height 0.25s linear;
+    height: 0;
+}
+
+/* The finishing CSS styles for the enter animation */
+.fade-container.ng-enter.ng-enter-active {
+    height: 26px;
+}
+
+/* now the element will fade out before it is removed from the DOM */
+.fade-container.ng-leave {
+    transition: height 0.25s linear;
+    animation-delay: 0.5s;
+    height: 26px;
+}
+.fade-container.ng-leave.ng-leave-active {
+    height: 0;
+}
+
+/*
+  We're using CSS transitions for when
+  the enter and move events are triggered
+  for the element that has the .repeated-item
+  class
+*/
+.repeated-item.ng-enter, .repeated-item.ng-move {
+    transition: all 0.5s linear;
+    opacity: 0;
+}
+
+/*
+ The ng-enter-active and ng-move-active
+ are where the transition destination properties
+ are set so that the animation knows what to
+ animate.
+*/
+.repeated-item.ng-enter.ng-enter-active,
+.repeated-item.ng-move.ng-move-active {
+    opacity: 1;
+}
+
+/*
+  We're using CSS keyframe animations for when
+  the leave event is triggered for the element
+  that has the .repeated-item class
+*/
+.repeated-item.ng-leave {
+    animation: 0.5s my_animation;
+}
+
+@keyframes my_animation {
+    from { opacity:1; }
+    to { opacity:0; }
+}

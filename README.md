@@ -1,5 +1,5 @@
 # mangadlapp
-A client application for mangafox.me. Allows searching for and downloading manga available on the website.
+A cross-platform graphical application for mangafox.me. Allows users to search, browse and download content available on the website.
 
 ---
 
